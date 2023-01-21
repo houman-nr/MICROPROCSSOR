@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.57  A:\UNI stuff\semester 5\Micro processor - M. Ahmadyfar\PROJECT MICRO 2.0\MICROPROCSSOR-main\PROJECT MICRO 2.0\PROJECT_MICRO2.0\PROJECT_MICRO2.0\PROJECT_MICRO2.0.asm Sat Jan 21 00:55:51 2023
+AVRASM ver. 2.1.57  A:\UNI stuff\semester 5\Micro processor - M. Ahmadyfar\PROJECT MICRO 2.0\MICROPROCSSOR-main\PROJECT MICRO 2.0\PROJECT_MICRO2.0\PROJECT_MICRO2.0\PROJECT_MICRO2.0.asm Sat Jan 21 17:34:01 2023
 
 [builtin](2): Including file 'C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR Assembler\Native\2.1.1175\avrassembler\Include\m32def.inc'
 A:\UNI stuff\semester 5\Micro processor - M. Ahmadyfar\PROJECT MICRO 2.0\MICROPROCSSOR-main\PROJECT MICRO 2.0\PROJECT_MICRO2.0\PROJECT_MICRO2.0\PROJECT_MICRO2.0.asm(8): Including file 'C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR Assembler\Native\2.1.1175\avrassembler\Include\M32DEF.INC'
@@ -871,324 +871,420 @@ A:\UNI stuff\semester 5\Micro processor - M. Ahmadyfar\PROJECT MICRO 2.0\MICROPR
                  #endif  /* _M32DEF_INC_ */
                  
                  	.ORG 0
-000000 c1ff      	RJMP main
-                 	.ORG $100
-000100 2410
-000101 1502      	.DB $10, $24, $02, $15 ;50 / 100 / 10 / 65
-                 	.ORG $200
-000200 e000      MAIN:	LDI R16, $00
-000201 bb0a      		OUT DDRA, R16; PORTA IS NOW BEING USED AS IN INPUT
-000202 bf00      		OUT SFIOR, R16; PULL UP RESISTANT
-000203 b389      		IN R24, PINA
-000204 e00f      		LDI R16, $0F
-000205 bb07      		OUT DDRB, R16;SETTING THE 
-000206 bb04      		OUT DDRC, R16; OUTPUT PORTS
-000207 bb01      		OUT DDRD, R16; FIRST 4 BIT PORT ARE USED FOR
-000208 e000      		LDI R16, $00
-000209 bb08      		OUT PORTB, R16
-00020a e000      		LDI R16, $00
-00020b bb0b      		OUT PORTA, R16
-00020c e090      		LDI R25, $00
+000000 c3ff      	RJMP main
+                 	.ORG $108
+000108 2410
+000109 1502      	.DB $10, $24, $02, $15 ;50 / 100 / 10 / 65
+                 	.ORG $400
+000400 e000      MAIN:	LDI R16, $00
+000401 bb0a      		OUT DDRA, R16; PORTA IS NOW BEING USED AS IN INPUT
+000402 bf00      		OUT SFIOR, R16; PULL UP RESISTANT
+000403 b389      		IN R24, PINA
+000404 e00f      		LDI R16, $0F
+000405 bb07      		OUT DDRB, R16;SETTING THE 
+000406 bb04      		OUT DDRC, R16; OUTPUT PORTS
+000407 bb01      		OUT DDRD, R16; FIRST 4 BIT PORT ARE USED FOR
+000408 e000      		LDI R16, $00
+000409 bb08      		OUT PORTB, R16
+00040a e000      		LDI R16, $00
+00040b bb0b      		OUT PORTA, R16
+00040c e090      		LDI R25, $00
                  ;-----------------------------------------------------------
-00020d e244      		LDI R20, 36 ;ENGINE MAX IN PORTC
-00020e e152      		LDI R21, 18 ;ENGINE MAX IN PORTD
-00020f e069      		LDI R22, 9  ;ENGINE MAX IN PORTB
-000210 e070      		LDI R23, 0  ;CHANGED ENGINE
+00040d e244      		LDI R20, 36 ;ENGINE MAX IN PORTC
+00040e e152      		LDI R21, 18 ;ENGINE MAX IN PORTD
+00040f e069      		LDI R22, 9  ;ENGINE MAX IN PORTB
+000410 e070      		LDI R23, 0  ;CHANGED ENGINE
                  ;------------------------------------------------------------
-000211 b396      START:	IN R25, PINB
-000212 ff97      		SBRS R25, 7
-000213 cffd      		RJMP START
-000214 b389      INPUT:	IN R24, PINA
-000215 2fd8      		MOV R29, R24
-000216 e3bf      		LDI R27, $3F
-000217 23db      		AND R29, R27
-000218 3080      		CPI R24, 00
-000219 f469      		BRNE MOT_CH
-00021a b380      SAVED:	IN R24, PIND
-00021b 3080      		CPI R24, $00
-00021c f3a1      		BREQ START
-00021d e0b0      		LDI R27, $00
-00021e fd84      		SBRC R24, 4;SAVED 1
-00021f c00d      		RJMP SAVED1
-000220 fd85      		SBRC R24, 5;SAVED 2
-000221 c00e      		RJMP SAVED2
-000222 fd86      		SBRC R24, 6;SAVED 3
-000223 c00f      		RJMP SAVED3
-000224 fd87      		SBRC R24, 7;SAVED 4
-000225 c010      		RJMP SAVED4
-000226 cfea      		RJMP START
-000227 fd94      MOT_CH:	SBRC R25, 4 ;MOTOR CHECK + REVERSE MODE CHECK 
-000228 c010      		RJMP RECHECKC4
-000229 fd95      		SBRC R25, 5
-00022a c011      		RJMP RECHECKD4
-00022b fd96      		SBRC R25, 6
-00022c c012      		RJMP RECHECKB4
-00022d e0e1      SAVED1:	LDI R30, $01 ; 50
-00022e 91d4      		LPM R29, Z
-00022f cff7      		RJMP MOT_CH
-000230 e0e2      SAVED2:	LDI R30, $02 ; 10
-000231 91d4      		LPM R29, Z
-000232 cff4      		RJMP MOT_CH
-000233 e0e3      SAVED3:	LDI R30, $03
-000234 91d4      		LPM R29, Z
-000235 cff1      		RJMP MOT_CH
-000236 e0e4      SAVED4: LDI R30, $04
-000237 91d4      		LPM R29, Z
-000238 cfee      		RJMP MOT_CH
+000411 b396      START:	IN R25, PINB
+000412 ff97      		SBRS R25, 7
+000413 cffd      		RJMP START
+000414 b389      INPUT:	IN R24, PINA
+000415 2fd8      		MOV R29, R24
+000416 e3bf      		LDI R27, $3F
+000417 23db      		AND R29, R27
+000418 3080      		CPI R24, 00
+000419 f469      		BRNE MOT_CH
+00041a b380      SAVED:	IN R24, PIND
+00041b 3080      		CPI R24, $00
+00041c f3a1      		BREQ START
+00041d e0f2      		LDI R31, $02
+00041e fd84      		SBRC R24, 4;SAVED 1
+00041f c00d      		RJMP SAVED1
+000420 fd85      		SBRC R24, 5;SAVED 2
+000421 c00e      		RJMP SAVED2
+000422 fd86      		SBRC R24, 6;SAVED 3
+000423 c00f      		RJMP SAVED3
+000424 fd87      		SBRC R24, 7;SAVED 4
+000425 c010      		RJMP SAVED4
+000426 cfea      		RJMP START
+000427 fd94      MOT_CH:	SBRC R25, 4 ;MOTOR CHECK + REVERSE MODE CHECK 
+000428 c010      		RJMP RECHECKC4
+000429 fd95      		SBRC R25, 5
+00042a c011      		RJMP RECHECKD4
+00042b fd96      		SBRC R25, 6
+00042c c012      		RJMP RECHECKB4
+00042d e1e0      SAVED1:	LDI R30, $10 ; 50
+00042e 91d4      		LPM R29, Z
+00042f cff7      		RJMP MOT_CH
+000430 e1e1      SAVED2:	LDI R30, $11 ; 10
+000431 91d4      		LPM R29, Z
+000432 cff4      		RJMP MOT_CH
+000433 e1e2      SAVED3:	LDI R30, $12
+000434 91d4      		LPM R29, Z
+000435 cff1      		RJMP MOT_CH
+000436 e1e3      SAVED4: LDI R30, $13
+000437 91d4      		LPM R29, Z
+000438 cfee      		RJMP MOT_CH
                  ;-------------------------------------------------
-000239 ff87      RECHECKC4:SBRS R24,7;
-00023a c020      		RJMP C4; IF REVERSE MODE IS OFF
-00023b c006      		RJMP C4REVERSE; IF REVERSE MODE IS  ON 
+000439 ff87      RECHECKC4:SBRS R24,7;
+00043a c01e      		RJMP C4; IF REVERSE MODE IS OFF
+00043b c006      		RJMP C4REVERSE; IF REVERSE MODE IS  ON 
                  ;--------------------------------------------------
                  RECHECKD4:
-00023c ff87      		SBRS R24,7;
-00023d c050      		RJMP D4; IF REVERSE MODE IS OFF
-00023e c035      		RJMP D4REVERSE;IF REVERSE MODE IS ON
+00043c ff87      		SBRS R24,7;
+00043d c04b      		RJMP D4; IF REVERSE MODE IS OFF
+00043e c031      		RJMP D4REVERSE;IF REVERSE MODE IS ON
                  ;--------------------------------------------------
                  RECHECKB4:
-00023f ff87      		SBRS R24,7;
-000240 c07f      		RJMP B4; IF REVERSE MODE IS OFF
-000241 c065      		RJMP B4REVERSE;IF REVERSE MODE IS ON
+00043f ff87      		SBRS R24,7;
+000440 c07a      		RJMP B4; IF REVERSE MODE IS OFF
+000441 c060      		RJMP B4REVERSE;IF REVERSE MODE IS ON
                  ;--------------------------------------------------
-000242 17d4      C4REVERSE:CP R29, R20
-000243 f4a8      		BRSH C_SET
-000244 e004      C_CON:	LDI R16, $04
-000245 bb05      C_1:	OUT PORTC, R16
-000246 e020      		LDI R18, 00
-000247 e030      		LDI R19, 00
-000248 9523      WAIT_C:	INC R18
-000249 9533      		WAIT_CP1:INC R19
-00024a 3931      				CPI R19, $91
-00024b f7e9      				BRNE WAIT_CP1
-00024c 3f2f      		CPI R18, $FF
-00024d f7d1      		BRNE WAIT_C
-00024e 9506      		LSR R16
-00024f 3000      		CPI R16, $00
-000250 f031      		BREQ SHIFT_C
-000251 95da      C_BACK:	DEC R29
-000252 30d0      		CPI R29, $00
-000253 f789      		BRNE C_1
-000254 ff70      LOOP_C:	SBRS R23, 0
-000255 c083      		RJMP RESETC
-000256 cfba      		RJMP START
-000257 e008      SHIFT_C:LDI R16, $08
-000258 cff8      		RJMP C_BACK
-000259 2fd4      C_SET:	MOV R29, R20
-00025a cfe9      		RJMP C_CON		
+000442 17d4      C4REVERSE:CP R29, R20
+000443 f498      		BRSH C_SET
+000444 e004      C_CON:	LDI R16, $04
+000445 bb05      C_1:	OUT PORTC, R16
+000446 e020      		LDI R18, 00
+000447 e030      		LDI R19, 00
+000448 9523      WAIT_C:	INC R18
+000449 9533      		WAIT_CP1:INC R19
+00044a 3931      				CPI R19, $91
+00044b f7e9      				BRNE WAIT_CP1
+00044c 3f2f      		CPI R18, $FF
+00044d f7d1      		BRNE WAIT_C
+00044e 9506      		LSR R16
+00044f 3000      		CPI R16, $00
+000450 f021      		BREQ SHIFT_C
+000451 95da      C_BACK:	DEC R29
+000452 30d0      		CPI R29, $00
+000453 f789      		BRNE C_1
+000454 c07f      		RJMP RESETC
+000455 e008      SHIFT_C:LDI R16, $08
+000456 cffa      		RJMP C_BACK
+000457 2fd4      C_SET:	MOV R29, R20
+000458 cfeb      		RJMP C_CON		
                  ;+++++++++++++++++++++++++++++++++++++++++++++++
-00025b 17d4      C4:		CP R29, R20
-00025c f4a8      		BRSH C4SET
-00025d e001      C4CON:	LDI R16, $01
-00025e bb05      C1:		OUT PORTC, R16
-00025f e020      		LDI R18, 00
-000260 e030      		LDI R19, 00
-000261 9523      WAITC:	INC R18
-000262 9533      		WAITCP1:INC R19
-000263 3931      				CPI R19, $91
-000264 f7e9      				BRNE WAITCP1
-000265 3f2f      		CPI R18, $FF
-000266 f7d1      		BRNE WAITC
-000267 0f00      		LSL R16
-000268 3100      		CPI R16, $10
-000269 f031      		BREQ SHIFTC
-00026a 95da      CBACK:	DEC R29
-00026b 30d0      		CPI R29, $00
-00026c f789      		BRNE C1
-00026d ff70      LOOPC:	SBRS R23, 0
-00026e c06a      		RJMP RESETC
-00026f cfa1      		RJMP START
-000270 e001      SHIFTC:	LDI R16, $01
-000271 cff8      		RJMP CBACK
-000272 2fd4      C4SET:	MOV R29, R20
-000273 cfe9      		RJMP C4CON
+000459 17d4      C4:		CP R29, R20
+00045a f498      		BRSH C4SET
+00045b e001      C4CON:	LDI R16, $01
+00045c bb05      C1:		OUT PORTC, R16
+00045d e020      		LDI R18, 00
+00045e e030      		LDI R19, 00
+00045f 9523      WAITC:	INC R18
+000460 9533      		WAITCP1:INC R19
+000461 3931      				CPI R19, $91
+000462 f7e9      				BRNE WAITCP1
+000463 3f2f      		CPI R18, $FF
+000464 f7d1      		BRNE WAITC
+000465 0f00      		LSL R16
+000466 3100      		CPI R16, $10
+000467 f021      		BREQ SHIFTC
+000468 95da      CBACK:	DEC R29
+000469 30d0      		CPI R29, $00
+00046a f789      		BRNE C1
+00046b c068      		RJMP RESETC
+00046c e001      SHIFTC:	LDI R16, $01
+00046d cffa      		RJMP CBACK
+00046e 2fd4      C4SET:	MOV R29, R20
+00046f cfeb      		RJMP C4CON
                  ;----------------------------------------------------------
                  ;----------------------------------------------------------
-000274 17d5      D4REVERSE:CP R29, R21
-000275 f4b0      		BRSH D_SET
-000276 e004      D_CON:	LDI R16, $04
-000277 bb02      D_1:	OUT PORTD, R16
-000278 e020      		LDI R18, 00
-000279 e030      		LDI R19, 00
-00027a 9523      WAIT_D:	INC R18
-00027b 9533      		WAIT_DP1:INC R19
-00027c 3931      				CPI R19, $91
-00027d f7e9      				BRNE WAIT_DP1
-00027e 3f2f      		CPI R18, $FF
-00027f f7d1      		BRNE WAIT_D
-000280 bbb5      		OUT PORTC, R27
-000281 9506      		LSR R16
-000282 3000      		CPI R16, $00
-000283 f031      		BREQ SHIFT_D
-000284 95da      D_BACK:	DEC R29
-000285 30d0      		CPI R29, $00
-000286 f781      		BRNE D_1
-000287 ff71      LOOP_D:	SBRS R23, 1
-000288 c05a      		RJMP RESETD
-000289 cf87      		RJMP START
-00028a e008      SHIFT_D:LDI R16, $08
-00028b cff8      		RJMP D_BACK
-00028c 2fd5      D_SET:	MOV R29, R21
-00028d cfe8      		RJMP D_CON
+000470 17d5      D4REVERSE:CP R29, R21
+000471 f4a8      		BRSH D_SET
+000472 e004      D_CON:	LDI R16, $04
+000473 bb02      D_1:	OUT PORTD, R16
+000474 e020      		LDI R18, 00
+000475 e030      		LDI R19, 00
+000476 9523      WAIT_D:	INC R18
+000477 9533      		WAIT_DP1:INC R19
+000478 3931      				CPI R19, $91
+000479 f7e9      				BRNE WAIT_DP1
+00047a 3f2f      		CPI R18, $FF
+00047b f7d1      		BRNE WAIT_D
+00047c 9506      		LSR R16
+00047d 3000      		CPI R16, $00
+00047e f031      		BREQ SHIFT_D
+00047f 95da      D_BACK:	DEC R29
+000480 30d0      		CPI R29, $00
+000481 f789      		BRNE D_1
+000482 ff71      LOOP_D:	SBRS R23, 1
+000483 c05c      		RJMP RESETD
+000484 cf8c      		RJMP START
+000485 e008      SHIFT_D:LDI R16, $08
+000486 cff8      		RJMP D_BACK
+000487 2fd5      D_SET:	MOV R29, R21
+000488 cfe9      		RJMP D_CON
                  ;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-00028e 17d5      D4:		CP R29, R21
-00028f f4a8      		BRSH D4SET
-000290 e001      D4CON:	LDI R16, $01
-000291 bb02      D1:		OUT PORTD, R16
-000292 e020      		LDI R18, 00
-000293 e030      		LDI R19, 00
-000294 9523      WAITD:	INC R18
-000295 9533      		WAITDP1:INC R19
-000296 3931      				CPI R19, $91
-000297 f7e9      				BRNE WAITDP1
-000298 3f2f      		CPI R18, $FF
-000299 f7d1      		BRNE WAITD
-00029a 0f00      		LSL R16
-00029b 3100      		CPI R16, $10
-00029c f031      		BREQ SHIFTD
-00029d 95da      DBACK:	DEC R29
-00029e 30d0      		CPI R29, $00
-00029f f789      		BRNE D1
-0002a0 ff70      LOOPD:	SBRS R23, 0
-0002a1 c041      		RJMP RESETD
-0002a2 cf6e      		RJMP START
-0002a3 e001      SHIFTD:	LDI R16, $01
-0002a4 cff8      		RJMP DBACK
-0002a5 2fd5      D4SET:	MOV R29, R21
-0002a6 cfe9      		RJMP D4CON
+000489 17d5      D4:		CP R29, R21
+00048a f4a8      		BRSH D4SET
+00048b e001      D4CON:	LDI R16, $01
+00048c bb02      D1:		OUT PORTD, R16
+00048d e020      		LDI R18, 00
+00048e e030      		LDI R19, 00
+00048f 9523      WAITD:	INC R18
+000490 9533      		WAITDP1:INC R19
+000491 3931      				CPI R19, $91
+000492 f7e9      				BRNE WAITDP1
+000493 3f2f      		CPI R18, $FF
+000494 f7d1      		BRNE WAITD
+000495 0f00      		LSL R16
+000496 3100      		CPI R16, $10
+000497 f031      		BREQ SHIFTD
+000498 95da      DBACK:	DEC R29
+000499 30d0      		CPI R29, $00
+00049a f789      		BRNE D1
+00049b ff70      LOOPD:	SBRS R23, 0
+00049c c043      		RJMP RESETD
+00049d cf73      		RJMP START
+00049e e001      SHIFTD:	LDI R16, $01
+00049f cff8      		RJMP DBACK
+0004a0 2fd5      D4SET:	MOV R29, R21
+0004a1 cfe9      		RJMP D4CON
                  ;----------------------------------------------------------
-0002a7 17d6      B4REVERSE:CP R29, R22
-0002a8 f4a8      		BRSH B_SET
-0002a9 e004      B_CON:	LDI R16, $04
-0002aa bb08      B_1:	OUT PORTB, R16
-0002ab e020      		LDI R18, 00
-0002ac e030      		LDI R19, 00
-0002ad 9523      WAIT_B:	INC R18
-0002ae 9533      		WAIT_BP1:INC R19
-0002af 3931      				CPI R19, $91
-0002b0 f7e9      				BRNE WAIT_BP1
-0002b1 3f2f      		CPI R18, $FF
-0002b2 f7d1      		BRNE WAIT_B
-0002b3 9506      		LSR R16
-0002b4 3000      		CPI R16, $00
-0002b5 f031      		BREQ SHIFT_B
-0002b6 95da      B_BACK:	DEC R29
-0002b7 30d0      		CPI R29, $00
-0002b8 f789      		BRNE B_1
-0002b9 ff70      LOOP_B:	SBRS R23, 0
-0002ba c033      		RJMP RESETB
-0002bb cf55      		RJMP START
-0002bc e008      SHIFT_B:LDI R16, $08
-0002bd cff8      		RJMP B_BACK
-0002be 2fd6      B_SET:	MOV R29, R22
-0002bf cfe9      		RJMP B_CON
+0004a2 17d6      B4REVERSE:CP R29, R22
+0004a3 f4a8      		BRSH B_SET
+0004a4 e004      B_CON:	LDI R16, $04
+0004a5 bb08      B_1:	OUT PORTB, R16
+0004a6 e020      		LDI R18, 00
+0004a7 e030      		LDI R19, 00
+0004a8 9523      WAIT_B:	INC R18
+0004a9 9533      		WAIT_BP1:INC R19
+0004aa 3931      				CPI R19, $91
+0004ab f7e9      				BRNE WAIT_BP1
+0004ac 3f2f      		CPI R18, $FF
+0004ad f7d1      		BRNE WAIT_B
+0004ae 9506      		LSR R16
+0004af 3000      		CPI R16, $00
+0004b0 f031      		BREQ SHIFT_B
+0004b1 95da      B_BACK:	DEC R29
+0004b2 30d0      		CPI R29, $00
+0004b3 f789      		BRNE B_1
+0004b4 ff70      LOOP_B:	SBRS R23, 0
+0004b5 c036      		RJMP RESETB
+0004b6 cf5a      		RJMP START
+0004b7 e008      SHIFT_B:LDI R16, $08
+0004b8 cff8      		RJMP B_BACK
+0004b9 2fd6      B_SET:	MOV R29, R22
+0004ba cfe9      		RJMP B_CON
                  ;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-0002c0 17d6      B4:		CP R29, R22
-0002c1 f4a8      		BRSH B4SET
-0002c2 e001      B4CON:	LDI R16, $01
-0002c3 bb08      B1:		OUT PORTB, R16
-0002c4 e020      		LDI R18, 00
-0002c5 e030      		LDI R19, 00
-0002c6 9523      WAITB:	INC R18
-0002c7 9533      		WAITBP1:INC R19
-0002c8 3931      				CPI R19, $91
-0002c9 f7e9      				BRNE WAITBP1
-0002ca 3f2f      		CPI R18, $FF
-0002cb f7d1      		BRNE WAITB
-0002cc 0f00      		LSL R16
-0002cd 3100      		CPI R16, $10
-0002ce f031      		BREQ SHIFTB
-0002cf 95da      BBACK:	DEC R29
-0002d0 30d0      		CPI R29, $00
-0002d1 f789      		BRNE B1
-0002d2 ff70      LOOPB:	SBRS R23, 0
-0002d3 c01a      		RJMP RESETB
-0002d4 cf3c      		RJMP START
-0002d5 e001      SHIFTB:	LDI R16, $01
-0002d6 cff8      		RJMP BBACK
-0002d7 2fd6      B4SET:	MOV R29, R22
-0002d8 cfe9      		RJMP B4CON
+0004bb 17d6      B4:		CP R29, R22
+0004bc f4a8      		BRSH B4SET
+0004bd e001      B4CON:	LDI R16, $01
+0004be bb08      B1:		OUT PORTB, R16
+0004bf e020      		LDI R18, 00
+0004c0 e030      		LDI R19, 00
+0004c1 9523      WAITB:	INC R18
+0004c2 9533      		WAITBP1:INC R19
+0004c3 3931      				CPI R19, $91
+0004c4 f7e9      				BRNE WAITBP1
+0004c5 3f2f      		CPI R18, $FF
+0004c6 f7d1      		BRNE WAITB
+0004c7 0f00      		LSL R16
+0004c8 3100      		CPI R16, $10
+0004c9 f031      		BREQ SHIFTB
+0004ca 95da      BBACK:	DEC R29
+0004cb 30d0      		CPI R29, $00
+0004cc f789      		BRNE B1
+0004cd ff70      LOOPB:	SBRS R23, 0
+0004ce c01d      		RJMP RESETB
+0004cf cf41      		RJMP START
+0004d0 e001      SHIFTB:	LDI R16, $01
+0004d1 cff8      		RJMP BBACK
+0004d2 2fd6      B4SET:	MOV R29, R22
+0004d3 cfe9      		RJMP B4CON
                  ;----------------------------------------------------------reset bottun \/
-0002d9 b396      RESETC:	IN R25, PINB
-0002da ff97      		SBRS R25, 7
-0002db cffd      		RJMP RESETC
-0002dc ef7f      		LDI R23, $FF;FLAG FOR RESET
-0002dd 2fd8      		MOV R29, R24
-0002de e3bf      		LDI R27, $3F
-0002df 23db      		AND R29, R27
-0002e0 ff87      		SBRS R24,7;
-0002e1 c02f      		RJMP C4RE ; IF REVERSE MODE IS  ON
-0002e2 c016      		RJMP C4RERE; IF REVERSE MODE IS OFF
-0002e3 b396      RESETD:	IN R25, PINB
-0002e4 ff97      		SBRS R25, 7
-0002e5 cffd      		RJMP RESETD
-0002e6 ef7f      		LDI R23, $FF
-0002e7 2fd8      		MOV R29, R24
-0002e8 e3bf      		LDI R27, $3F
-0002e9 23db      		AND R29, R27
-0002ea 95da      		DEC R29
-0002eb ff87      		SBRS R24,7;
-0002ec cf87      		RJMP D4REVERSE ; IF REVERSE MODE IS  ON
-0002ed cfa0      		RJMP D4; IF REVERSE MODE IS OFF
-0002ee b396      RESETB:	IN R25, PINB
-0002ef ff97      		SBRS R25, 7
-0002f0 cffd      		RJMP RESETB
-0002f1 ef7f      		LDI R23, $FF
-0002f2 2fd8      		MOV R29, R24
-0002f3 e3bf      		LDI R27, $3F
-0002f4 23db      		AND R29, R27
-0002f5 95da      		DEC R29
-0002f6 ff87      		SBRS R24,7;
-0002f7 cfaf      		RJMP B4REVERSE ; IF REVERSE MODE IS  ON
-0002f8 cfc7      		RJMP B4; IF REVERSE MODE IS OFF
-                 ;--------------------------------------------------
-0002f9 17d4      C4RERE:	CP R29, R20
-0002fa f4a0      		BRSH C_SETRE
-0002fb 0f00      C4RERECON:LSL R16
-0002fc bb05      C_1RE:	OUT PORTC, R16
-0002fd e020      		LDI R18, 00
-0002fe e030      		LDI R19, 00
-0002ff 9523      WAIT_CRE:INC R18
-000300 9533      		WAIT_CP1RE:INC R19
-000301 3931      				CPI R19, $91
-000302 f7e9      				BRNE WAIT_CP1RE
-000303 3f2f      		CPI R18, $FF
-000304 f7d1      		BRNE WAIT_CRE
-000305 bbb5      		OUT PORTC, R27
-000306 9506      		LSR R16
-000307 3000      		CPI R16, $00
-000308 f021      		BREQ SHIFT_CRE
-000309 95da      C_BACKRE:DEC R29
-00030a 30d0      		CPI R29, $00
-00030b f781      		BRNE C_1RE
-00030c cf04      		RJMP START
-00030d e008      SHIFT_CRE:LDI R16, $08
-00030e cffa      		RJMP C_BACKRE
-00030f 2fd4      C_SETRE:MOV R29, R20
-000310 cfea      		RJMP C4RERECON		
-                 ;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-000311 17d4      C4RE:	CP R29, R20
-000312 f498      		BRSH C4SETRE
-000313 0f00      C4CONRE:LSL R16
-000314 bb05      C1RE:	OUT PORTC, R16
-000315 e020      		LDI R18, 00
-000316 e030      		LDI R19, 00
-000317 9523      WAITCRE:INC R18
-000318 9533      		WAITCP1RE:INC R19
-000319 3931      				CPI R19, $91
-00031a f7e9      				BRNE WAITCP1RE
-00031b 3f2f      		CPI R18, $FF
-00031c f7d1      		BRNE WAITCRE
-00031d 0f00      		LSL R16
-00031e 3100      		CPI R16, $10
-00031f f021      		BREQ SHIFTCRE
-000320 95da      CBACKRE:DEC R29
-000321 30d0      		CPI R29, $00
-000322 f789      		BRNE C1RE
-000323 ceed      		RJMP START
-000324 e001      SHIFTCRE:LDI R16, $01
-000325 cffa      		RJMP CBACKRE
-000326 2fd4      C4SETRE:MOV R29, R20
-000327 cfeb      		RJMP C4CONRE
+0004d4 b396      RESETC:	IN R25, PINB
+0004d5 ff97      		SBRS R25, 7
+0004d6 cffd      		RJMP RESETC
+0004d7 e070      		LDI R23, $00;FLAG FOR RESET
+0004d8 2fd8      		MOV R29, R24
+0004d9 e3bf      		LDI R27, $3F
+0004da 23db      		AND R29, R27
+0004db b303      		IN R16, PINC
+0004dc e07f      		LDI R23, $0F
+0004dd ff87      		SBRS R24,7;
+0004de c030      		RJMP C4RE ; IF REVERSE MODE IS  ON
+0004df c018      		RJMP C4RERE; IF REVERSE MODE IS OFF
+0004e0 b396      RESETD:	IN R25, PINB
+0004e1 ff97      		SBRS R25, 7
+0004e2 cffd      		RJMP RESETD
+0004e3 e070      		LDI R23, $00;FLAG FOR RESET
+0004e4 2fd8      		MOV R29, R24
+0004e5 e3bf      		LDI R27, $3F
+0004e6 23db      		AND R29, R27
+0004e7 b300      		IN R16, PIND
+0004e8 e07f      		LDI R23, $0F
+0004e9 ff87      		SBRS R24,7;
+0004ea c052      		RJMP D4RE ; IF REVERSE MODE IS  ON
+0004eb c03a      		RJMP D4RERE; IF REVERSE MODE IS OFF
+0004ec b396      RESETB:	IN R25, PINB
+0004ed ff97      		SBRS R25, 7
+0004ee cffd      		RJMP RESETB
+0004ef e070      		LDI R23, $00;FLAG FOR RESET
+0004f0 2fd8      		MOV R29, R24
+0004f1 e3bf      		LDI R27, $3F
+0004f2 23db      		AND R29, R27
+0004f3 b306      		IN R16, PINB
+0004f4 e07f      		LDI R23, $0F
+0004f5 ff87      		SBRS R24,7;
+0004f6 c074      		RJMP B4RE ; IF REVERSE MODE IS  ON
+0004f7 c05c      		RJMP B4RERE; IF REVERSE MODE IS OFF
+                 ;------------------------------------------------------;C4 REVERSE RESET
+0004f8 17d4      C4RERE:	CP R29, R20
+0004f9 f498      		BRSH C_SETRE
+0004fa 95d3      		INC R29
+0004fb bb05      C_1RE:	OUT PORTC, R16
+0004fc e020      		LDI R18, 00
+0004fd e030      		LDI R19, 00
+0004fe 9523      WAIT_CRE:INC R18
+0004ff 9533      		WAIT_CP1RE:INC R19
+000500 3931      				CPI R19, $91
+000501 f7e9      				BRNE WAIT_CP1RE
+000502 3f2f      		CPI R18, $FF
+000503 f7d1      		BRNE WAIT_CRE
+000504 0f00      		LSL R16
+000505 3100      		CPI R16, $10
+000506 f021      		BREQ SHIFT_CRE
+000507 95da      C_BACKRE:DEC R29
+000508 30d0      		CPI R29, $00
+000509 f789      		BRNE C_1RE
+00050a cf06      		RJMP START
+00050b e001      SHIFT_CRE:LDI R16, $01
+00050c cffa      		RJMP C_BACKRE
+00050d 2fd4      C_SETRE:MOV R29, R20
+00050e cfec      		RJMP C_1RE		
+                 ;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;c4 REVERSE
+00050f 17d4      C4RE:	CP R29, R20
+000510 f498      		BRSH C4SETRE
+000511 95d3      		INC R29
+000512 bb05      C1RE:	OUT PORTC, R16
+000513 e020      		LDI R18, 00
+000514 e030      		LDI R19, 00
+000515 9523      WAITCRE:INC R18
+000516 9533      		WAITCP1RE:INC R19
+000517 3931      				CPI R19, $91
+000518 f7e9      				BRNE WAITCP1RE
+000519 3f2f      		CPI R18, $FF
+00051a f7d1      		BRNE WAITCRE
+00051b 9506      		LSR R16
+00051c 3000      		CPI R16, $00
+00051d f021      		BREQ SHIFTCRE
+00051e 95da      CBACKRE:DEC R29
+00051f 30d0      		CPI R29, $00
+000520 f789      		BRNE C1RE
+000521 ceef      		RJMP START
+000522 e008      SHIFTCRE:LDI R16, $08
+000523 cffa      		RJMP CBACKRE
+000524 2fd4      C4SETRE:MOV R29, R20
+000525 cfec      		RJMP C1RE
+                 ;----------------------------------------------------------
+                 ;------------------------------------------------------;D4 REVERSE RESET
+000526 17d5      D4RERE:	CP R29, R21
+000527 f498      		BRSH D_SETRE
+000528 95d3      		INC R29
+000529 bb02      D_1RE:	OUT PORTD, R16
+00052a e020      		LDI R18, 00
+00052b e030      		LDI R19, 00
+00052c 9523      WAIT_DRE:INC R18
+00052d 9533      		WAIT_DP1RE:INC R19
+00052e 3931      				CPI R19, $91
+00052f f7e9      				BRNE WAIT_DP1RE
+000530 3f2f      		CPI R18, $FF
+000531 f7d1      		BRNE WAIT_DRE
+000532 0f00      		LSL R16
+000533 3100      		CPI R16, $10
+000534 f021      		BREQ SHIFT_DRE
+000535 95da      D_BACKRE:DEC R29
+000536 30d0      		CPI R29, $00
+000537 f789      		BRNE D_1RE
+000538 ced8      		RJMP START
+000539 e001      SHIFT_DRE:LDI R16, $01
+00053a cffa      		RJMP D_BACKRE
+00053b 2fd5      D_SETRE:MOV R29, R21
+00053c cfec      		RJMP D_1RE		
+                 ;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;D4 REVERSE
+00053d 17d5      D4RE:	CP R29, R21
+00053e f498      		BRSH D4SETRE
+00053f 95d3      		INC R29
+000540 bb02      D1RE:	OUT PORTD, R16
+000541 e020      		LDI R18, 00
+000542 e030      		LDI R19, 00
+000543 9523      WAITDRE:INC R18
+000544 9533      		WAITDP1RE:INC R19
+000545 3931      				CPI R19, $91
+000546 f7e9      				BRNE WAITDP1RE
+000547 3f2f      		CPI R18, $FF
+000548 f7d1      		BRNE WAITDRE
+000549 9506      		LSR R16
+00054a 3000      		CPI R16, $00
+00054b f021      		BREQ SHIFTDRE
+00054c 95da      DBACKRE:DEC R29
+00054d 30d0      		CPI R29, $00
+00054e f789      		BRNE D1RE
+00054f cec1      		RJMP START
+000550 e008      SHIFTDRE:LDI R16, $08
+000551 cffa      		RJMP DBACKRE
+000552 2fd5      D4SETRE:MOV R29, R21
+000553 cfec      		RJMP D1RE
+                 ;----------------------------------------------------------
+                 ;------------------------------------------------------;B4 REVERSE RESET
+000554 17d6      B4RERE:	CP R29, R22
+000555 f498      		BRSH B_SETRE
+000556 95d3      		INC R29
+000557 bb08      B_1RE:	OUT PORTB, R16
+000558 e020      		LDI R18, 00
+000559 e030      		LDI R19, 00
+00055a 9523      WAIT_BRE:INC R18
+00055b 9533      		WAIT_BP1RE:INC R19
+00055c 3931      				CPI R19, $91
+00055d f7e9      				BRNE WAIT_BP1RE
+00055e 3f2f      		CPI R18, $FF
+00055f f7d1      		BRNE WAIT_BRE
+000560 0f00      		LSL R16
+000561 3100      		CPI R16, $10
+000562 f021      		BREQ SHIFT_BRE
+000563 95da      B_BACKRE:DEC R29
+000564 30d0      		CPI R29, $00
+000565 f789      		BRNE B_1RE
+000566 ceaa      		RJMP START
+000567 e001      SHIFT_BRE:LDI R16, $01
+000568 cffa      		RJMP B_BACKRE
+000569 2fd6      B_SETRE:MOV R29, R22
+00056a cfec      		RJMP B_1RE		
+                 ;++++++++++++++++++++++++++++++++++++++++++++++++++++++++++;B4 REVERSE
+00056b 17d6      B4RE:	CP R29, R22
+00056c f498      		BRSH B4SETRE
+00056d 95d3      		INC R29
+00056e bb08      B1RE:	OUT PORTB, R16
+00056f e020      		LDI R18, 00
+000570 e030      		LDI R19, 00
+000571 9523      WAITBRE:INC R18
+000572 9533      		WAITBP1RE:INC R19
+000573 3931      				CPI R19, $91
+000574 f7e9      				BRNE WAITBP1RE
+000575 3f2f      		CPI R18, $FF
+000576 f7d1      		BRNE WAITBRE
+000577 9506      		LSR R16
+000578 3000      		CPI R16, $00
+000579 f021      		BREQ SHIFTBRE
+00057a 95da      BBACKRE:DEC R29
+00057b 30d0      		CPI R29, $00
+00057c f789      		BRNE B1RE
+00057d ce93      		RJMP START
+00057e e008      SHIFTBRE:LDI R16, $08
+00057f cffa      		RJMP BBACKRE
+000580 2fd6      B4SETRE:MOV R29, R22
+000581 cfec      		RJMP B1RE
 
 
 RESOURCE USE INFORMATION
@@ -1208,28 +1304,28 @@ counted separately from r26..r31 here.
 "ATmega32" register use summary:
 r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 r5 :   0 r6 :   0 r7 :   0 
 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 r13:   0 r14:   0 r15:   0 
-r16:  51 r17:   0 r18:  24 r19:  24 r20:   9 r21:   5 r22:   5 r23:  10 
-r24:  19 r25:  12 r26:   0 r27:  11 r28:   0 r29:  46 r30:   4 r31:   0 
+r16:  68 r17:   0 r18:  36 r19:  36 r20:   9 r21:   9 r22:   9 r23:  11 
+r24:  19 r25:  12 r26:   0 r27:   8 r28:   0 r29:  66 r30:   4 r31:   1 
 x  :   0 y  :   0 z  :   4 
-Registers used: 13 out of 35 (37.1%)
+Registers used: 14 out of 35 (40.0%)
 
 "ATmega32" instruction use summary:
 .lds  :   0 .sts  :   0 adc   :   0 add   :   0 adiw  :   0 and   :   4 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
-brcc  :   0 brcs  :   0 break :   0 breq  :   9 brge  :   0 brhc  :   0 
+brcc  :   0 brcs  :   0 break :   0 breq  :  13 brge  :   0 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 brlt  :   0 brmi  :   0 
-brne  :  25 brpl  :   0 brsh  :   8 brtc  :   0 brts  :   0 brvc  :   0 
+brne  :  37 brpl  :   0 brsh  :  12 brtc  :   0 brts  :   0 brvc  :   0 
 brvs  :   0 bset  :   0 bst   :   0 call  :   0 cbi   :   0 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
-clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   8 cpc   :   0 
-cpi   :  34 cpse  :   0 dec   :  10 eor   :   0 fmul  :   0 fmuls :   0 
-fmulsu:   0 icall :   0 ijmp  :   0 in    :   7 inc   :  16 jmp   :   0 
-ld    :   0 ldd   :   0 ldi   :  51 lds   :   0 lpm   :   8 lsl   :   6 
-lsr   :   4 mov   :  12 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
-neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :  17 pop   :   0 
-push  :   0 rcall :   0 ret   :   0 reti  :   0 rjmp  :  59 rol   :   0 
+clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :  12 cpc   :   0 
+cpi   :  50 cpse  :   0 dec   :  12 eor   :   0 fmul  :   0 fmuls :   0 
+fmulsu:   0 icall :   0 ijmp  :   0 in    :  10 inc   :  30 jmp   :   0 
+ld    :   0 ldd   :   0 ldi   :  66 lds   :   0 lpm   :   8 lsl   :   6 
+lsr   :   6 mov   :  16 movw  :   0 mul   :   0 muls  :   0 mulsu :   0 
+neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :  19 pop   :   0 
+push  :   0 rcall :   0 ret   :   0 reti  :   0 rjmp  :  69 rol   :   0 
 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 sbis  :   0 
-sbiw  :   0 sbr   :   0 sbrc  :   7 sbrs  :  16 sec   :   0 seh   :   0 
+sbiw  :   0 sbr   :   0 sbrc  :   7 sbrs  :  14 sec   :   0 seh   :   0 
 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
 sez   :   0 sleep :   0 spm   :   0 st    :   0 std   :   0 sts   :   0 
 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
@@ -1238,7 +1334,7 @@ Instructions used: 18 out of 113 (15.9%)
 "ATmega32" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000650    594      4    598   32768   1.8%
+[.cseg] 0x000000 0x000b04    774      4    778   32768   2.4%
 [.dseg] 0x000060 0x000060      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 
